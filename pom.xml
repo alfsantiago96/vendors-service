@@ -67,6 +67,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>vendors-service</finalName>
 	</build>
 
 </project>
