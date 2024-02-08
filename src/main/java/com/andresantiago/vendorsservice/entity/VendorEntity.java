@@ -1,15 +1,16 @@
 package com.andresantiago.vendorsservice.entity;
 
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
-import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Document
 @Getter
 @Setter
 @Builder
@@ -17,7 +18,6 @@ import java.util.Objects;
 @AllArgsConstructor
 public class VendorEntity {
 
-    @Id
     private String id;
     private String name;
     private String taxId;

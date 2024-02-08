@@ -1,4 +1,4 @@
-package com.andresantiago.vendorsservice.api.request;
+package com.andresantiago.vendorsservice.api.v1.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

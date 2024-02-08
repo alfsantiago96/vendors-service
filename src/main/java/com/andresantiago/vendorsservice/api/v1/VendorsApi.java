@@ -1,7 +1,7 @@
-package com.andresantiago.vendorsservice.api;
+package com.andresantiago.vendorsservice.api.v1;
 
-import com.andresantiago.vendorsservice.api.request.CreateVendorRequest;
-import com.andresantiago.vendorsservice.api.request.LocationRequest;
+import com.andresantiago.vendorsservice.api.v1.request.CreateVendorRequest;
+import com.andresantiago.vendorsservice.api.v1.request.LocationRequest;
 import com.andresantiago.vendorsservice.dto.VendorsStatisticsDto;
 import com.andresantiago.vendorsservice.entity.VendorEntity;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
@@ -101,6 +101,8 @@ public class VendorsApi {
         return ResponseEntity.ok().body(vendor);
     }
 
+
+    /* Dev purpose only */
     @PostMapping("/database")
     public ResponseEntity<List<VendorEntity>> createVendorDatabaseInMemory() {
         log.info("Creating vendor in memory.");
@@ -109,6 +111,7 @@ public class VendorsApi {
         return ResponseEntity.ok().build();
     }
 
+    /* Dev purpose only */
     @DeleteMapping("/database")
     public ResponseEntity<List<VendorEntity>> dropVendorDatabaseInMemory() {
         log.info("Creating vendor in memory.");

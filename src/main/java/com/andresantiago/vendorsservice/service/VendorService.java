@@ -1,7 +1,7 @@
 package com.andresantiago.vendorsservice.service;
 
-import com.andresantiago.vendorsservice.api.request.CreateVendorRequest;
-import com.andresantiago.vendorsservice.api.request.LocationRequest;
+import com.andresantiago.vendorsservice.api.v1.request.CreateVendorRequest;
+import com.andresantiago.vendorsservice.api.v1.request.LocationRequest;
 import com.andresantiago.vendorsservice.dto.VendorsStatisticsDto;
 import com.andresantiago.vendorsservice.entity.VendorEntity;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;

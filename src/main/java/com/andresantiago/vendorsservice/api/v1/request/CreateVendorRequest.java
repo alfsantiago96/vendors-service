@@ -1,6 +1,5 @@
-package com.andresantiago.vendorsservice.api.request;
+package com.andresantiago.vendorsservice.api.v1.request;
 
-import com.andresantiago.vendorsservice.entity.LocationEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

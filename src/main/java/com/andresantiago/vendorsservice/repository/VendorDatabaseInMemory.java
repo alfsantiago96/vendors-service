@@ -32,6 +32,10 @@ public class VendorDatabaseInMemory {
     }
 
     public void createVendor(VendorEntity vendor) {
+        boolean matchAnyVendorTaxId = vendors.stream().anyMatch(vendor1 -> vendor1.getTaxId().equals(vendor.getTaxId()));
+        if (matchAnyVendorTaxId) {
+            throw new RuntimeException("Vendor already registered.");
+        }
         vendors.add(vendor);
     }
 
