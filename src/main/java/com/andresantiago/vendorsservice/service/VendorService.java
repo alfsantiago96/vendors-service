@@ -28,7 +28,7 @@ public class VendorService {
     private final MongoTemplate mongoTemplate;
 
     public void createVendor(CreateVendorRequest createVendorRequest) {
-        log.info("Saving new Vendor... taxId: {}", createVendorRequest.getTaxId());
+        log.info("Saving new Vendor. taxId: {}", createVendorRequest.getTaxId());
 
         final VendorEntity vendorEntity = VendorEntityMapper.map(createVendorRequest);
         vendorRepository.save(vendorEntity);
