@@ -1,6 +1,6 @@
 package com.andresantiago.vendorsservice.enums;
 
-public enum ServiceCategoriesEnum {
+public enum ServiceCategoryEnum {
     ACCESS_CONTROL_SOFTWARE,
     AIR_CONDITIONING,
     LANDSCAPING,

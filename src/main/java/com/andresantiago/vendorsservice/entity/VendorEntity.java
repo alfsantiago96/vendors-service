@@ -1,6 +1,6 @@
 package com.andresantiago.vendorsservice.entity;
 
-import com.andresantiago.vendorsservice.enums.ServiceCategoriesEnum;
+import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,11 +23,11 @@ public class VendorEntity {
     private String taxId;
     private boolean isCompliant;
     private LocationEntity location;
-    private List<ServiceCategoriesEnum> services;
+    private List<ServiceCategoryEnum> services;
 
 
 
-    public void addService(ServiceCategoriesEnum newService) {
+    public void addService(ServiceCategoryEnum newService) {
         if (Objects.isNull(services)) {
             services = new ArrayList<>();
         }

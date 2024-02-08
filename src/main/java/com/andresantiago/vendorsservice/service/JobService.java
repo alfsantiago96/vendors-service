@@ -1,9 +1,7 @@
 package com.andresantiago.vendorsservice.service;
 
 import com.andresantiago.vendorsservice.api.request.CreateJobRequest;
-import com.andresantiago.vendorsservice.api.request.LocationRequest;
 import com.andresantiago.vendorsservice.entity.JobEntity;
-import com.andresantiago.vendorsservice.enums.ServiceCategoriesEnum;
 import com.andresantiago.vendorsservice.mapper.JobEntityMapper;
 import com.andresantiago.vendorsservice.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
