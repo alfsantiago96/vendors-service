@@ -7,9 +7,11 @@ import com.andresantiago.vendorsservice.entity.VendorEntity;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
 import com.andresantiago.vendorsservice.repository.VendorDatabaseInMemory;
 import com.andresantiago.vendorsservice.service.VendorService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,11 +20,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/vendors")
 @RequiredArgsConstructor
+@Tag(name = "vendors", description = "API for vendores integration")
 public class VendorsApi {
 
     private final VendorService vendorService;
     private final VendorDatabaseInMemory vendorDatabaseInMemory;
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
     public ResponseEntity<Object> getAllVendors() {
         log.info("Getting all vendors...");
@@ -31,6 +35,7 @@ public class VendorsApi {
         return ResponseEntity.ok().body(vendors);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/jobs")
     public ResponseEntity<Object> getVendorByJob(@RequestParam String locationName,
                                                  @RequestParam String locationState,
@@ -57,6 +62,7 @@ public class VendorsApi {
         return ResponseEntity.ok().body(vendorStatistics);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     public ResponseEntity<Object> createVendor(@RequestBody CreateVendorRequest request) {
         log.info("Creating a vendor with the request: {}", request);
@@ -65,6 +71,7 @@ public class VendorsApi {
         return ResponseEntity.ok().body(test);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/jobs")
     public ResponseEntity<Void> includeJob(@RequestParam String taxId,
                                            @RequestParam ServiceCategoryEnum serviceCategoriesEnum) {
@@ -73,6 +80,7 @@ public class VendorsApi {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/compliance")
     public ResponseEntity<Void> updateCompliance(@RequestParam String taxId,
                                            @RequestParam boolean compliance) {
@@ -81,6 +89,7 @@ public class VendorsApi {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/taxId")
     public ResponseEntity<Object> getVendorByTaxId(@RequestParam String taxId) {
         log.info("Getting vendor by taxId: {}", taxId);
@@ -89,6 +98,7 @@ public class VendorsApi {
         return ResponseEntity.ok().body(vendor);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/location")
     public ResponseEntity<Object> getVendorByLocation(@RequestParam String locationName,
                                                       @RequestParam String locationState) {
@@ -103,6 +113,7 @@ public class VendorsApi {
 
 
     /* Dev purpose only */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/database")
     public ResponseEntity<List<VendorEntity>> createVendorDatabaseInMemory() {
         log.info("Creating vendor in memory.");
@@ -112,11 +123,12 @@ public class VendorsApi {
     }
 
     /* Dev purpose only */
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/database")
     public ResponseEntity<List<VendorEntity>> dropVendorDatabaseInMemory() {
-        log.info("Creating vendor in memory.");
+        log.info("Deleting all vendors in memory.");
         vendorDatabaseInMemory.eraseInMemoryData();
-        log.info("Vendors created with success.");
+        log.info("Vendors deleted with success.");
         return ResponseEntity.ok().build();
     }
 }
