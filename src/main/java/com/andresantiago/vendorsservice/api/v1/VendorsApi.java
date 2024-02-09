@@ -7,6 +7,7 @@ import com.andresantiago.vendorsservice.entity.VendorEntity;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
 import com.andresantiago.vendorsservice.repository.VendorDatabaseInMemory;
 import com.andresantiago.vendorsservice.service.VendorService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ public class VendorsApi {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
+    @Operation(description = "Get all vendors from database.")
     public ResponseEntity<Object> getAllVendors() {
         log.info("Getting all vendors...");
         final List<VendorEntity> vendors = vendorService.findAllVendors();
@@ -37,6 +39,7 @@ public class VendorsApi {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/jobs")
+    @Operation(description = "Get potential vendors for a Job.")
     public ResponseEntity<Object> getVendorByJob(@RequestParam String locationName,
                                                  @RequestParam String locationState,
                                                  @RequestParam ServiceCategoryEnum service) {
@@ -50,6 +53,7 @@ public class VendorsApi {
     }
 
     @GetMapping("/jobs/statistics")
+    @Operation(description = "Get vendors statistics by Service and Location")
     public ResponseEntity<Object> getVendorsStatisticsByJob(@RequestParam String locationName,
                                                             @RequestParam String locationState,
                                                             @RequestParam ServiceCategoryEnum service) {
@@ -64,6 +68,7 @@ public class VendorsApi {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
+    @Operation(description = "Creates a vendor")
     public ResponseEntity<Object> createVendor(@RequestBody CreateVendorRequest request) {
         log.info("Creating a vendor with the request: {}", request);
         vendorService.createVendor(request);
@@ -73,6 +78,7 @@ public class VendorsApi {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/jobs")
+    @Operation(description = "Include a new service to a Vendor")
     public ResponseEntity<Void> includeJob(@RequestParam String taxId,
                                            @RequestParam ServiceCategoryEnum serviceCategoriesEnum) {
         log.info("Including a new service to the vendor taxId: {}", taxId);
@@ -82,6 +88,7 @@ public class VendorsApi {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/compliance")
+    @Operation(description = "Update compliance status for a Vendor")
     public ResponseEntity<Void> updateCompliance(@RequestParam String taxId,
                                            @RequestParam boolean compliance) {
         log.info("Updating compliance...");
@@ -91,6 +98,7 @@ public class VendorsApi {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/taxId")
+    @Operation(description = "Get a Vendor by taxId")
     public ResponseEntity<Object> getVendorByTaxId(@RequestParam String taxId) {
         log.info("Getting vendor by taxId: {}", taxId);
         VendorEntity vendor = vendorService.findVendorByTaxId(taxId);
@@ -100,6 +108,7 @@ public class VendorsApi {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/location")
+    @Operation(description = "Get all vendors given the Location.")
     public ResponseEntity<Object> getVendorByLocation(@RequestParam String locationName,
                                                       @RequestParam String locationState) {
         LocationRequest locationRequest = LocationRequest.builder()
@@ -115,6 +124,7 @@ public class VendorsApi {
     /* Dev purpose only */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/database")
+    @Operation(description = "Create a database to test the assessment.")
     public ResponseEntity<List<VendorEntity>> createVendorDatabaseInMemory() {
         log.info("Creating vendor in memory.");
         vendorDatabaseInMemory.createVendorsData();
@@ -125,6 +135,7 @@ public class VendorsApi {
     /* Dev purpose only */
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/database")
+    @Operation(description = "Clean vendor database.")
     public ResponseEntity<List<VendorEntity>> dropVendorDatabaseInMemory() {
         log.info("Deleting all vendors in memory.");
         vendorDatabaseInMemory.eraseInMemoryData();

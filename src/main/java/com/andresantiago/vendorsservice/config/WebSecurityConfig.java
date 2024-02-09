@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Slf4j
 @Configuration
@@ -21,59 +22,28 @@ public class WebSecurityConfig {
 
     private final CustomBasicAuthenticationFilter customBasicAuthenticationFilter;
 
-//    @Bean
-//    public InMemoryUserDetailsManager userDetailsService() {
-//        UserDetails user1 = User.builder()
-//                .username("vs_tech_challenge")
-//                .password(encoder().encode("SuperSecurePassword123@"))
-//                .roles("USER", "ADMIN")
-//                .build();
-//        UserDetails user2 = User.builder()
-//                .username("andre")
-//                .password(encoder().encode("123"))
-//                .roles("USER")
-//                .build();
-//        return new InMemoryUserDetailsManager(user1, user2);
-//    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        log.info("Validation User");
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .authorizeHttpRequests((request) -> request
+                        .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/v1/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/v1/**").permitAll()
+//                        .requestMatchers(new AntPathRequestMatcher("**swagger-ui/**")).permitAll()
+//                        .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
+//                        .requestMatchers(new AntPathRequestMatcher("**/swagger-ui/**")).permitAll()
+//                        .requestMatchers(new AntPathRequestMatcher("v3/api-docs/**")).permitAll()
+//                        .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
                         .anyRequest().authenticated()
                 ).addFilterBefore(customBasicAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests(autz -> {
-//            autz.anyRequest().authenticated();
-//        })
-//                .httpBasic(Customizer.withDefaults());
-//        return http.build();
-//    }
-
-//    @Bean
-//    public SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity
-//                .authorizeHttpRequests((requests) -> requests
-//                        .requestMatchers( new AntPathRequestMatcher("swagger-ui/**")).permitAll()
-//                        .requestMatchers( new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
-//                        .requestMatchers( new AntPathRequestMatcher("v3/api-docs/**")).permitAll()
-//                        .requestMatchers( new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
-//                        .anyRequest().authenticated())
-//                .httpBasic();
-//        return httpSecurity.build();
-//    }
 
     private static final String[] AUTH_WHITELIST = {
-            // -- Swagger UI v2
             "/v2/api-docs",
             "v2/api-docs",
             "/swagger-resources",
@@ -87,16 +57,27 @@ public class WebSecurityConfig {
             "/swagger-ui.html",
             "swagger-ui.html",
             "webjars/**",
-            // -- Swagger UI v3
             "/v3/api-docs/**",
             "v3/api-docs/**",
             "/swagger-ui/**",
             "swagger-ui/**",
-            // CSA Controllers
             "/csa/api/token",
-            // Actuators
             "/actuator/**",
             "/health/**"
     };
 
+    //    @Bean
+//    public InMemoryUserDetailsManager userDetailsService() {
+//        UserDetails user1 = User.builder()
+//                .username("vs_tech_challenge")
+//                .password(encoder().encode("SuperSecurePassword123@"))
+//                .roles("USER", "ADMIN")
+//                .build();
+//        UserDetails user2 = User.builder()
+//                .username("andre")
+//                .password(encoder().encode("123"))
+//                .roles("USER")
+//                .build();
+//        return new InMemoryUserDetailsManager(user1, user2);
+//    }
 }
