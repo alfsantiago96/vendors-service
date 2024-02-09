@@ -25,8 +25,6 @@ public class VendorEntity {
     private LocationEntity location;
     private List<ServiceCategoryEnum> services;
 
-
-
     public void addService(ServiceCategoryEnum newService) {
         if (Objects.isNull(services)) {
             services = new ArrayList<>();

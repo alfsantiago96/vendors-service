@@ -23,6 +23,7 @@ public class JobService {
     public void hireAJob(ServiceCategoryEnum serviceCategory, String vendorTaxId, String companyTaxId, LocationRequest locationRequest) {
         VendorEntity vendor = vendorService.findVendorByTaxId(vendorTaxId);
         VendorValidation.validateVendor(vendor, serviceCategory, locationRequest);
+
         JobEntity job = JobEntity.builder()
                 .companyTaxId(companyTaxId)
                 .service(serviceCategory)

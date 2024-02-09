@@ -16,6 +16,14 @@ public class VendorDatabaseInMemory {
 
     private List<VendorEntity> vendors = new ArrayList<VendorEntity>();
 
+    public void createVendor(VendorEntity vendor) {
+        boolean matchAnyVendorTaxId = vendors.stream().anyMatch(vendor1 -> vendor1.getTaxId().equals(vendor.getTaxId()));
+        if (matchAnyVendorTaxId) {
+            throw new RuntimeException("Vendor already registered.");
+        }
+        vendors.add(vendor);
+    }
+
     public List<VendorEntity> getVendors() {
         return vendors;
     }
@@ -29,14 +37,6 @@ public class VendorDatabaseInMemory {
             throw new RuntimeException("Vendor not found expection");
         }
         return first.get();
-    }
-
-    public void createVendor(VendorEntity vendor) {
-        boolean matchAnyVendorTaxId = vendors.stream().anyMatch(vendor1 -> vendor1.getTaxId().equals(vendor.getTaxId()));
-        if (matchAnyVendorTaxId) {
-            throw new RuntimeException("Vendor already registered.");
-        }
-        vendors.add(vendor);
     }
 
     public VendorEntity updateVendor(VendorEntity vendor) {

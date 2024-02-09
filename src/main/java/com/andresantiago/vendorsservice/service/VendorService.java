@@ -21,32 +21,9 @@ public class VendorService {
 
     private final VendorDatabaseInMemory vendorDatabaseInMemory;
 
-    public List<VendorEntity> findAllVendors() {
-        return vendorDatabaseInMemory.getVendors();
-    }
-
-    public List<VendorEntity> findVendorByJob(LocationRequest locationRequest,
-                                              ServiceCategoryEnum serviceCategoriesEnum) {
-        log.info("Searching vendors for a Job={}, Location={}", serviceCategoriesEnum, locationRequest);
-        List<VendorEntity> vendorsByLocation = findVendorsByLocation(locationRequest);
-        List<VendorEntity> vendorEntities = filterVendorsByService(vendorsByLocation, serviceCategoriesEnum);
-        log.info("Vendors result for job={}", vendorEntities);
-        return vendorEntities;
-    }
-
-    public void createVendor(CreateVendorRequest createVendorRequest) {
-        log.info("Creating new Vendor. taxId: {}", createVendorRequest.getTaxId());
-
-        final VendorEntity vendorEntity = VendorEntityMapper.map(createVendorRequest);
-        vendorDatabaseInMemory.createVendor(vendorEntity);
-
-        log.info("Vendor created with success.");
-    }
-
-
     public VendorsStatisticsDto getVendorsStatisticsByJob(LocationRequest request, ServiceCategoryEnum serviceCategory) {
         log.info("Finding vendors statistics for the given service. {}", serviceCategory);
-        List<VendorEntity> vendorByJob = findVendorByJob(request, serviceCategory);
+        List<VendorEntity> vendorByJob = findPotentialVendorsByJob(request, serviceCategory);
         int totalVendors = vendorByJob.size();
         int compliantVendors = (int) vendorByJob.stream().filter(VendorEntity::isCompliant).count();
         int notCompliantVendors = (int) vendorByJob.stream().filter(vendorEntity -> !vendorEntity.isCompliant()).count();
@@ -59,6 +36,24 @@ public class VendorService {
                 .totalCompliant(compliantVendors)
                 .totalNotCompliant(notCompliantVendors)
                 .build();
+    }
+
+    public void createVendor(CreateVendorRequest createVendorRequest) {
+        log.info("Creating new Vendor. taxId: {}", createVendorRequest.getTaxId());
+
+        final VendorEntity vendorEntity = VendorEntityMapper.map(createVendorRequest);
+        vendorDatabaseInMemory.createVendor(vendorEntity);
+
+        log.info("Vendor created with success.");
+    }
+
+    public List<VendorEntity> findPotentialVendorsByJob(LocationRequest locationRequest,
+                                                        ServiceCategoryEnum serviceCategoriesEnum) {
+        log.info("Searching vendors for a Job={}, Location={}", serviceCategoriesEnum, locationRequest);
+        List<VendorEntity> vendorsByLocation = findVendorsByLocation(locationRequest);
+        List<VendorEntity> vendorEntities = filterVendorsByService(vendorsByLocation, serviceCategoriesEnum);
+        log.info("Vendors result for job={}", vendorEntities);
+        return vendorEntities;
     }
 
     public void includeService(String taxId, ServiceCategoryEnum service) {
@@ -74,6 +69,10 @@ public class VendorService {
         VendorEntity vendor = findVendorByTaxId(taxId);
         vendor.setCompliant(isCompliant);
         log.info("Vendor compliance updated with success.");
+    }
+
+    public List<VendorEntity> findAllVendors() {
+        return vendorDatabaseInMemory.getVendors();
     }
 
     public VendorEntity findVendorByTaxId(String taxId) {

@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Slf4j
 @Configuration
@@ -33,11 +32,6 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/v1/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/v1/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/v1/**").permitAll()
-//                        .requestMatchers(new AntPathRequestMatcher("**swagger-ui/**")).permitAll()
-//                        .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
-//                        .requestMatchers(new AntPathRequestMatcher("**/swagger-ui/**")).permitAll()
-//                        .requestMatchers(new AntPathRequestMatcher("v3/api-docs/**")).permitAll()
-//                        .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
                         .anyRequest().authenticated()
                 ).addFilterBefore(customBasicAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

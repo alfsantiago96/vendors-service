@@ -4,7 +4,9 @@ import com.andresantiago.vendorsservice.api.v1.request.LocationRequest;
 import com.andresantiago.vendorsservice.entity.JobEntity;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
 import com.andresantiago.vendorsservice.service.JobService;
-import com.andresantiago.vendorsservice.service.VendorService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +18,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/jobs")
 @RequiredArgsConstructor
+@Tag(name = "jobs-api", description = "Job hiring and consulting")
+@SecurityRequirement(name = "basicAuth")
 public class JobApi {
 
     private final JobService jobService;
 
     @PostMapping
+    @Operation(description = "Creates a hire intention for a Job with the provide information.")
     public ResponseEntity<Object> createJob(@RequestParam String companyTaxId,
                                             @RequestParam ServiceCategoryEnum serviceCategory,
                                             @RequestParam String vendorTaxId,
@@ -34,6 +39,7 @@ public class JobApi {
     }
 
     @GetMapping("/company")
+    @Operation(description = "Search for registered Jobs with the provided company.")
     public ResponseEntity<List<JobEntity>> getJobByCompany(String taxId) {
         log.info("Getting the jobs from company taxId: {}", taxId);
         List<JobEntity> jobsByCompany = jobService.findJobsByCompany(taxId);
@@ -42,6 +48,7 @@ public class JobApi {
     }
 
     @GetMapping("/vendor")
+    @Operation(description = "Search for registered Jobs with the provided vendor.")
     public ResponseEntity<List<JobEntity>> getJobByVendor(String taxId) {
         log.info("Getting the jobs from vendor taxId: {}", taxId);
         List<JobEntity> jobsByCompany = jobService.findJobsByVendor(taxId);
