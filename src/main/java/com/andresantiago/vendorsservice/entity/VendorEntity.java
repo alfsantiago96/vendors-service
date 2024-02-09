@@ -25,12 +25,13 @@ public class VendorEntity {
     private LocationEntity location;
     private List<ServiceDto> services;
 
-    public void addService(ServiceCategoryEnum newService) {
+    public void addService(ServiceCategoryEnum newService, boolean isCompliant) {
         if (Objects.isNull(services)) {
             services = new ArrayList<>();
         }
         ServiceDto serviceDto = ServiceDto.builder()
                 .serviceCategory(newService)
+                .isCompliant(isCompliant)
                 .build();
         services.add(serviceDto);
     }

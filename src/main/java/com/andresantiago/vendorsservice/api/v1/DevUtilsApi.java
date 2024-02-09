@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/database")
 @RequiredArgsConstructor
-@Tag(name = "devutils-api", description = "To make easier evaluating the assessment.")
+@Tag(name = "3. Dev Utils", description = "To make easier evaluating the assessment.")
 @SecurityRequirement(name = "basicAuth")
 public class DevUtilsApi {
 

@@ -7,6 +7,7 @@ import com.andresantiago.vendorsservice.dto.VendorDto;
 import com.andresantiago.vendorsservice.dto.VendorsStatisticsDto;
 import com.andresantiago.vendorsservice.entity.VendorEntity;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
+import com.andresantiago.vendorsservice.exception.BusinessException;
 import com.andresantiago.vendorsservice.mapper.VendorDtoMapper;
 import com.andresantiago.vendorsservice.mapper.VendorEntityMapper;
 import com.andresantiago.vendorsservice.repository.VendorDatabaseInMemory;
@@ -76,18 +77,25 @@ public class VendorService {
                 .toList();
     }
 
-    public void includeService(String taxId, ServiceCategoryEnum service) {
+    public void includeService(String taxId, ServiceCategoryEnum service, boolean isCompliant) {
         log.info("Including service to vendor. taxId: {}, service: {}", taxId, service);
         VendorEntity vendor = findVendorByTaxId(taxId);
-        vendor.addService(service);
-        VendorEntity updatedVendor = vendorDatabaseInMemory.getVendorByTaxId(taxId);
-        log.info("Job Include with success. Jobs: {}", updatedVendor.getServices());
+        vendor.addService(service, isCompliant);
+        log.info("Job Include with success. Jobs");
     }
 
-    public void updateCompliance(String taxId, boolean isCompliant) {
-        log.info("Updatating compliance status for vendor taxId: {}, to isCompliant: {}", taxId, isCompliant);
+    public void updateCompliance(String taxId, ServiceCategoryEnum serviceCategory, boolean isCompliant) {
+        log.info("Updating compliance status for vendor taxId: {}", taxId);
         VendorEntity vendor = findVendorByTaxId(taxId);
-        //TODO
+        if (!VendorValidation.isOfferingTheService(vendor, serviceCategory)) {
+            throw new BusinessException("Vendor does not offer this service.");
+        }
+
+        for (ServiceDto serviceDto : vendor.getServices()) {
+            if (serviceDto.getServiceCategory().equals(serviceCategory)) {
+                serviceDto.setCompliant(isCompliant);
+            }
+        }
         log.info("Vendor compliance updated with success.");
     }
 

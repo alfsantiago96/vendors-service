@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/vendors")
 @RequiredArgsConstructor
-@Tag(name = "vendors-api", description = "Vendors searching and registration")
+@Tag(name = "1. Vendors", description = "Vendors searching and registration")
 @SecurityRequirement(name = "basicAuth")
 public class VendorsApi {
 
@@ -69,29 +69,31 @@ public class VendorsApi {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PutMapping("/jobs")
+    @PutMapping("/{taxId}/jobs")
     @Operation(description = "Include a new service to a Vendor")
-    public ResponseEntity<Void> includeJob(@RequestParam String taxId,
-                                           @RequestParam ServiceCategoryEnum serviceCategoriesEnum) {
+    public ResponseEntity<Void> includeJob(@PathVariable String taxId,
+                                           @RequestParam ServiceCategoryEnum serviceCategoriesEnum,
+                                           @RequestParam boolean isCompliant) {
         log.info("Including a new service to the vendor taxId: {}", taxId);
-        vendorService.includeService(taxId, serviceCategoriesEnum);
+        vendorService.includeService(taxId, serviceCategoriesEnum, isCompliant);
         return ResponseEntity.ok().build();
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PutMapping("/compliance")
+    @PutMapping("{taxId}/compliance")
     @Operation(description = "Update compliance status for a Vendor")
-    public ResponseEntity<Void> updateCompliance(@RequestParam String taxId,
-                                           @RequestParam boolean compliance) {
+    public ResponseEntity<Void> updateCompliance(@PathVariable String taxId,
+                                                 @RequestParam ServiceCategoryEnum serviceCategoryEnum,
+                                                 @RequestParam boolean isCompliant) {
         log.info("Updating compliance...");
-        vendorService.updateCompliance(taxId, compliance);
+        vendorService.updateCompliance(taxId, serviceCategoryEnum, isCompliant);
         return ResponseEntity.ok().build();
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/taxId")
-    @Operation(description = "Get a Vendor by taxId", hidden = true)
-    public ResponseEntity<Object> getVendorByTaxId(@RequestParam String taxId) {
+    @GetMapping("/{taxId}")
+    @Operation(description = "Get a Vendor by taxId")
+    public ResponseEntity<Object> getVendorByTaxId(@PathVariable String taxId) {
         log.info("Getting vendor by taxId: {}", taxId);
         VendorEntity vendor = vendorService.findVendorByTaxId(taxId);
         log.info("Vendor got with success.");

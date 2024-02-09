@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/jobs")
 @RequiredArgsConstructor
-@Tag(name = "jobs-api", description = "Job hiring and consulting")
+@Tag(name = "2. Jobs", description = "Job hiring and consulting")
 @SecurityRequirement(name = "basicAuth")
 public class JobApi {
 
@@ -45,21 +46,21 @@ public class JobApi {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/company")
+    @GetMapping("/company/{companyTaxId}")
     @Operation(description = "Search for registered Jobs with the provided company.")
-    public ResponseEntity<List<JobDto>> getJobByCompany(String taxId) {
-        log.info("Getting the jobs from company taxId: {}", taxId);
-        List<JobDto> jobsByCompany = jobService.findJobsByCompany(taxId);
+    public ResponseEntity<List<JobDto>> getJobByCompany(@PathVariable String companyTaxId) {
+        log.info("Getting the jobs from company taxId: {}", companyTaxId);
+        List<JobDto> jobsByCompany = jobService.findJobsByCompany(companyTaxId);
         log.info("Job got with success");
         return ResponseEntity.ok().body(jobsByCompany);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/vendor")
+    @GetMapping("/vendor/{vendorTaxId}")
     @Operation(description = "Search for registered Jobs with the provided vendor.")
-    public ResponseEntity<List<JobDto>> getJobByVendor(String taxId) {
-        log.info("Getting the jobs from vendor taxId: {}", taxId);
-        List<JobDto> jobsByCompany = jobService.findJobsByVendor(taxId);
+    public ResponseEntity<List<JobDto>> getJobByVendor(@PathVariable String vendorTaxId) {
+        log.info("Getting the jobs from vendor taxId: {}", vendorTaxId);
+        List<JobDto> jobsByCompany = jobService.findJobsByVendor(vendorTaxId);
         log.info("Job got with success");
         return ResponseEntity.ok().body(jobsByCompany);
     }

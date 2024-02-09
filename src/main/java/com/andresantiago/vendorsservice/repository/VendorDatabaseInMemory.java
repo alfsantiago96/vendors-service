@@ -21,7 +21,7 @@ public class VendorDatabaseInMemory {
     public void createVendor(VendorEntity vendor) {
         boolean matchAnyVendorTaxId = vendors.stream().anyMatch(vendor1 -> vendor1.getTaxId().equals(vendor.getTaxId()));
         if (matchAnyVendorTaxId) {
-            throw new RuntimeException("Vendor already registered.");
+            throw new BusinessException("Vendor already registered.");
         }
         vendors.add(vendor);
     }
@@ -51,49 +51,47 @@ public class VendorDatabaseInMemory {
                 .name("Vendor 1")
                 .taxId("1")
                 .location(buildLocation("Fayette", "TX"))
-                .services(List.of(buildService(ServiceCategoryEnum.LANDSCAPING_MAINTENANCE, false),
-                        buildService(ServiceCategoryEnum.AIR_CONDITIONING, false)))
                 .build();
 
         final VendorEntity vendor2 = VendorEntity.builder()
                 .name("Vendor 2")
                 .taxId("2")
                 .location(buildLocation("Fayette", "TX"))
-                .services(List.of(
-                        buildService(ServiceCategoryEnum.AIR_CONDITIONING, false)))
                 .build();
 
         final VendorEntity vendor3 = VendorEntity.builder()
                 .name("Vendor 3")
                 .taxId("3")
                 .location(buildLocation("Fayette", "TX"))
-                .services(List.of(
-                        buildService(ServiceCategoryEnum.AIR_CONDITIONING, true)))
                 .build();
 
         final VendorEntity vendor4 = VendorEntity.builder()
                 .name("Vendor 4")
                 .taxId("4")
                 .location(buildLocation("Glades", "FL"))
-                .services(List.of(
-                        buildService(ServiceCategoryEnum.LANDSCAPING_MAINTENANCE, true)))
                 .build();
 
         final VendorEntity vendor5 = VendorEntity.builder()
                 .name("Vendor 5")
                 .taxId("5")
                 .location(buildLocation("Glades", "FL"))
-                .services(List.of(
-                        buildService(ServiceCategoryEnum.AIR_CONDITIONING, false)))
                 .build();
 
         final VendorEntity vendor6 = VendorEntity.builder()
                 .name("Vendor 6")
                 .taxId("6")
                 .location(buildLocation("Glades", "FL"))
-                .services(List.of(
-                        buildService(ServiceCategoryEnum.AIR_CONDITIONING, true)))
                 .build();
+
+        vendor1.addService(ServiceCategoryEnum.LANDSCAPING_MAINTENANCE, false);
+        vendor1.addService(ServiceCategoryEnum.AIR_CONDITIONING, false);
+
+        vendor2.addService(ServiceCategoryEnum.AIR_CONDITIONING, false);
+        vendor3.addService(ServiceCategoryEnum.AIR_CONDITIONING, true);
+        vendor4.addService(ServiceCategoryEnum.LANDSCAPING_MAINTENANCE, true);
+        vendor5.addService(ServiceCategoryEnum.AIR_CONDITIONING, false);
+        vendor6.addService(ServiceCategoryEnum.AIR_CONDITIONING, true);
+
 
         vendors.add(vendor1);
         vendors.add(vendor2);
@@ -111,13 +109,6 @@ public class VendorDatabaseInMemory {
         return LocationEntity.builder()
                 .name(name)
                 .state(state)
-                .build();
-    }
-
-    private ServiceDto buildService (ServiceCategoryEnum serviceCategory, boolean isCompliant) {
-        return ServiceDto.builder()
-                .serviceCategory(serviceCategory)
-                .isCompliant(isCompliant)
                 .build();
     }
 }
