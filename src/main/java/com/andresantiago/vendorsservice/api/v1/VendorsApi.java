@@ -9,6 +9,7 @@ import com.andresantiago.vendorsservice.service.VendorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +60,7 @@ public class VendorsApi {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     @Operation(description = "Creates a vendor")
-    public ResponseEntity<Object> createVendor(@RequestBody CreateVendorRequest request) {
+    public ResponseEntity<Object> createVendor(@RequestBody @Valid CreateVendorRequest request) {
         log.info("Creating a vendor with the request: {}", request);
         vendorService.createVendor(request);
         String test = "Vendor Created with Success";

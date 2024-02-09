@@ -3,6 +3,7 @@ package com.andresantiago.vendorsservice.repository;
 import com.andresantiago.vendorsservice.entity.LocationEntity;
 import com.andresantiago.vendorsservice.entity.VendorEntity;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
+import com.andresantiago.vendorsservice.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +35,7 @@ public class VendorDatabaseInMemory {
                 .findFirst();
 
         if (first.isEmpty()) {
-            throw new RuntimeException("Vendor not found expection");
+            throw new BusinessException("Vendor not found");
         }
         return first.get();
     }
