@@ -2,7 +2,7 @@
 
 
 ## vendors-service
-##### This is an assessment for https://gist.github.com/mvsouza/5eca9515b180a04293b62bd11819cc96
+##### 
 
 Here you will find:
 
