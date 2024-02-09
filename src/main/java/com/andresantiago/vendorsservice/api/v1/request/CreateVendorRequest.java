@@ -17,15 +17,15 @@ import java.util.List;
 @NoArgsConstructor
 public class CreateVendorRequest {
 
-    @NotEmpty
+    @NotEmpty(message = "Vendor name cannot be empty")
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message = "Vendor taxId cannot be empty")
     private String taxId;
 
     @Valid
     private LocationRequest location;
 
-    @NotEmpty
+    @NotEmpty(message = "Vendor services cannot be empty")
     private List<ServiceDto> services;
 }
