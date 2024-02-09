@@ -23,6 +23,9 @@ the given job.
 
 * Vendors statistics: /v1/vendors/statistics
 
+##### Alternative Basic auth: 
+* username: andre
+* password: 123
 ___
 ### Runing the application
 
