@@ -31,7 +31,9 @@ ___
 
 * If you want to run it from a docker Image
 
-command: docker run -p 8080:8080 vendors-service
+repository: https://hub.docker.com/r/alfsantiago96/vendors-service
+
+command: docker run -p 8080:8080 alfsantiago96/vendors-service
 
 The application should be up at http://localhost:8080/app/swagger-ui/index.html
 
