@@ -58,7 +58,7 @@ public class VendorsApi {
         return ResponseEntity.ok().body(vendorStatistics);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_VENDOR_CREATOR')")
     @PostMapping
     @Operation(description = "Creates a vendor")
     public ResponseEntity<Object> createVendor(@RequestBody @Valid CreateVendorRequest request) {

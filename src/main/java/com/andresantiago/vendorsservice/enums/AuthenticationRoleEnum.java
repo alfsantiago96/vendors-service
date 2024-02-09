@@ -2,5 +2,6 @@ package com.andresantiago.vendorsservice.enums;
 
 public enum AuthenticationRoleEnum {
     USER,
-    ADMIN
+    JOB_CREATOR,
+    VENDOR_CREATOR
 }

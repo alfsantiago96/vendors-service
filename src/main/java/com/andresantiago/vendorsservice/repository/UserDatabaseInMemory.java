@@ -26,7 +26,9 @@ public class UserDatabaseInMemory {
         UserEntity admin = UserEntity.builder()
                 .username("vs_tech_challenge")
                 .password("SuperSecurePassword123@")
-                .roles(List.of(AuthenticationRoleEnum.ADMIN, AuthenticationRoleEnum.USER))
+                .roles(List.of(AuthenticationRoleEnum.USER,
+                        AuthenticationRoleEnum.VENDOR_CREATOR,
+                        AuthenticationRoleEnum.JOB_CREATOR))
                 .build();
 
         UserEntity user = UserEntity.builder()
@@ -35,7 +37,21 @@ public class UserDatabaseInMemory {
                 .roles(List.of(AuthenticationRoleEnum.USER))
                 .build();
 
+        UserEntity vendorCreator = UserEntity.builder()
+                .username("vendor")
+                .password("123")
+                .roles(List.of(AuthenticationRoleEnum.VENDOR_CREATOR))
+                .build();
+
+        UserEntity jobCreator = UserEntity.builder()
+                .username("job")
+                .password("123")
+                .roles(List.of(AuthenticationRoleEnum.JOB_CREATOR))
+                .build();
+
         users.add(user);
         users.add(admin);
+        users.add(vendorCreator);
+        users.add(jobCreator);
     }
 }
