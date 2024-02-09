@@ -2,15 +2,20 @@ package com.andresantiago.vendorsservice.service;
 
 import com.andresantiago.vendorsservice.api.v1.request.CreateVendorRequest;
 import com.andresantiago.vendorsservice.api.v1.request.LocationRequest;
+import com.andresantiago.vendorsservice.dto.ServiceDto;
+import com.andresantiago.vendorsservice.dto.VendorDto;
 import com.andresantiago.vendorsservice.dto.VendorsStatisticsDto;
 import com.andresantiago.vendorsservice.entity.VendorEntity;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
+import com.andresantiago.vendorsservice.mapper.VendorDtoMapper;
 import com.andresantiago.vendorsservice.mapper.VendorEntityMapper;
 import com.andresantiago.vendorsservice.repository.VendorDatabaseInMemory;
+import com.andresantiago.vendorsservice.validation.VendorValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,9 +28,9 @@ public class VendorService {
 
     public VendorsStatisticsDto getVendorsStatisticsByJob(LocationRequest request, ServiceCategoryEnum serviceCategory) {
         log.info("Finding vendors statistics for the given service. {}", serviceCategory);
-        List<VendorEntity> vendorByJob = findPotentialVendorsByJob(request, serviceCategory);
+        List<VendorDto> vendorByJob = findPotentialVendorsByJob(request, serviceCategory);
         int totalVendors = vendorByJob.size();
-        int compliantVendors = (int) vendorByJob.stream().filter(VendorEntity::isCompliant).count();
+        int compliantVendors = (int) vendorByJob.stream().filter(VendorDto::isCompliant).count();
         int notCompliantVendors = (int) vendorByJob.stream().filter(vendorEntity -> !vendorEntity.isCompliant()).count();
 
         log.info("Search success.");
@@ -47,13 +52,28 @@ public class VendorService {
         log.info("Vendor created with success.");
     }
 
-    public List<VendorEntity> findPotentialVendorsByJob(LocationRequest locationRequest,
-                                                        ServiceCategoryEnum serviceCategoriesEnum) {
+    public List<VendorDto> findPotentialVendorsByJob(LocationRequest locationRequest,
+                                                     ServiceCategoryEnum serviceCategoriesEnum) {
         log.info("Searching vendors for a Job={}, Location={}", serviceCategoriesEnum, locationRequest);
         List<VendorEntity> vendorsByLocation = findVendorsByLocation(locationRequest);
-        List<VendorEntity> vendorEntities = filterVendorsByService(vendorsByLocation, serviceCategoriesEnum);
-        log.info("Vendors result for job={}", vendorEntities);
-        return vendorEntities;
+        List<VendorEntity> vendorFiltered = filterVendorsByService(vendorsByLocation, serviceCategoriesEnum);
+        List<VendorDto> vendorsSorted = sortVendorsByCompliance(vendorFiltered, serviceCategoriesEnum);
+        log.info("Vendors result for job={}", vendorsSorted);
+        return vendorsSorted;
+    }
+
+    private List<VendorDto> sortVendorsByCompliance(List<VendorEntity> vendorsFiltered, ServiceCategoryEnum serviceCategoryEnum) {
+        List<VendorDto> vendorDtoList = new ArrayList<>();
+
+        for (VendorEntity vendor : vendorsFiltered) {
+            boolean isCompliant = VendorValidation.isCompliantByService(serviceCategoryEnum, vendor);
+            VendorDto vendorDto = VendorDtoMapper.map(vendor, isCompliant, serviceCategoryEnum);
+            vendorDtoList.add(vendorDto);
+        }
+
+        return vendorDtoList.stream()
+                .sorted((o1, o2) -> Boolean.compare(o2.isCompliant(), o1.isCompliant()))
+                .toList();
     }
 
     public void includeService(String taxId, ServiceCategoryEnum service) {
@@ -67,7 +87,7 @@ public class VendorService {
     public void updateCompliance(String taxId, boolean isCompliant) {
         log.info("Updatating compliance status for vendor taxId: {}, to isCompliant: {}", taxId, isCompliant);
         VendorEntity vendor = findVendorByTaxId(taxId);
-        vendor.setCompliant(isCompliant);
+        //TODO
         log.info("Vendor compliance updated with success.");
     }
 
@@ -97,13 +117,11 @@ public class VendorService {
     public List<VendorEntity> filterVendorsByService(List<VendorEntity> vendors, ServiceCategoryEnum serviceCategoriesEnum) {
         return vendors.stream()
                 .filter(vendorEntity -> filterServices(serviceCategoriesEnum, vendorEntity.getServices()))
-                .sorted((o1, o2) -> Boolean.compare(o2.isCompliant(), o1.isCompliant()))
                 .toList();
     }
 
-    private boolean filterServices(ServiceCategoryEnum serviceCategoriesEnum, List<ServiceCategoryEnum> serviceList) {
+    private boolean filterServices(ServiceCategoryEnum serviceCategoriesEnum, List<ServiceDto> serviceList) {
         return serviceList.stream()
-                .anyMatch(serviceCategoriesEnum1 -> serviceCategoriesEnum1.equals(serviceCategoriesEnum));
+                .anyMatch(serviceDto -> serviceDto.getServiceCategory().equals(serviceCategoriesEnum));
     }
-
 }

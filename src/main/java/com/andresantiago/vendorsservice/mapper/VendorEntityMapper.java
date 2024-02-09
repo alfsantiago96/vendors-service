@@ -12,6 +12,7 @@ public class VendorEntityMapper {
                 .name(request.getName())
                 .taxId(request.getTaxId())
                 .location(mapLocation(request.getLocation()))
+                .services(request.getServices())
                 .build();
     }
 

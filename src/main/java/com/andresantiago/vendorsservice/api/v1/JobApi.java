@@ -1,6 +1,7 @@
 package com.andresantiago.vendorsservice.api.v1;
 
 import com.andresantiago.vendorsservice.api.v1.request.LocationRequest;
+import com.andresantiago.vendorsservice.dto.JobDto;
 import com.andresantiago.vendorsservice.entity.JobEntity;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
 import com.andresantiago.vendorsservice.service.JobService;
@@ -40,18 +41,18 @@ public class JobApi {
 
     @GetMapping("/company")
     @Operation(description = "Search for registered Jobs with the provided company.")
-    public ResponseEntity<List<JobEntity>> getJobByCompany(String taxId) {
+    public ResponseEntity<List<JobDto>> getJobByCompany(String taxId) {
         log.info("Getting the jobs from company taxId: {}", taxId);
-        List<JobEntity> jobsByCompany = jobService.findJobsByCompany(taxId);
+        List<JobDto> jobsByCompany = jobService.findJobsByCompany(taxId);
         log.info("Job got with success");
         return ResponseEntity.ok().body(jobsByCompany);
     }
 
     @GetMapping("/vendor")
     @Operation(description = "Search for registered Jobs with the provided vendor.")
-    public ResponseEntity<List<JobEntity>> getJobByVendor(String taxId) {
+    public ResponseEntity<List<JobDto>> getJobByVendor(String taxId) {
         log.info("Getting the jobs from vendor taxId: {}", taxId);
-        List<JobEntity> jobsByCompany = jobService.findJobsByVendor(taxId);
+        List<JobDto> jobsByCompany = jobService.findJobsByVendor(taxId);
         log.info("Job got with success");
         return ResponseEntity.ok().body(jobsByCompany);
     }

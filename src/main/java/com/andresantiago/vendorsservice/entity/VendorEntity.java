@@ -1,5 +1,6 @@
 package com.andresantiago.vendorsservice.entity;
 
+import com.andresantiago.vendorsservice.dto.ServiceDto;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,14 +22,16 @@ public class VendorEntity {
     private String id;
     private String name;
     private String taxId;
-    private boolean isCompliant;
     private LocationEntity location;
-    private List<ServiceCategoryEnum> services;
+    private List<ServiceDto> services;
 
     public void addService(ServiceCategoryEnum newService) {
         if (Objects.isNull(services)) {
             services = new ArrayList<>();
         }
-        services.add(newService);
+        ServiceDto serviceDto = ServiceDto.builder()
+                .serviceCategory(newService)
+                .build();
+        services.add(serviceDto);
     }
 }

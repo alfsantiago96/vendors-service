@@ -1,5 +1,6 @@
 package com.andresantiago.vendorsservice.api.v1.request;
 
+import com.andresantiago.vendorsservice.dto.ServiceDto;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -26,5 +27,5 @@ public class CreateVendorRequest {
     private LocationRequest location;
 
     @NotEmpty
-    private List<ServiceCategoryEnum> services;
+    private List<ServiceDto> services;
 }
