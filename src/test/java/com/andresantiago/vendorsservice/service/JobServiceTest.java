@@ -83,7 +83,7 @@ public class JobServiceTest {
     @Test
     void shouldReturnJobsFromCompanyWithSuccess_givenAValidTaxId() {
         String companyTaxId = "999";
-        List<JobEntity> jobEntityList = List.of(JobStub.create());
+        List<JobEntity> jobEntityList = List.of(JobStub.createEntity());
 
         when(jobDatabaseInMemory.findJobsByCompany(eq(companyTaxId)))
                 .thenReturn(jobEntityList);
@@ -104,7 +104,7 @@ public class JobServiceTest {
     @Test
     void shouldReturnJobsFromVendorWithSuccess_givenAValidTaxId() {
         String vendorTaxId = "1";
-        List<JobEntity> jobEntityList = List.of(JobStub.create());
+        List<JobEntity> jobEntityList = List.of(JobStub.createEntity());
 
         when(jobDatabaseInMemory.findJobsByVendor(eq(vendorTaxId)))
                 .thenReturn(jobEntityList);

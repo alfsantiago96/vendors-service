@@ -1,0 +1,20 @@
+[
+  {
+    "id":"id",
+    "companyTaxId":"999",
+    "vendorName":"Vendor 1",
+    "vendorTaxId":"1",
+    "serviceCategory":"AIR_CONDITIONING",
+    "locationRequest":{
+      "name":"Capivari do Sul",
+      "state":"RS"
+    },
+    "hireDate":[
+      2024,
+      1,
+      1,
+      0,
+      0
+    ]
+  }
+]
