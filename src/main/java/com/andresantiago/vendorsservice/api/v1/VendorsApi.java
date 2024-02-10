@@ -100,28 +100,4 @@ public class VendorsApi {
         log.info("Vendor got with success.");
         return ResponseEntity.ok().body(vendor);
     }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/location")
-    @Operation(description = "Get all vendors given the Location.", hidden = true)
-    public ResponseEntity<Object> getVendorsByLocation(@RequestParam String locationName,
-                                                       @RequestParam String locationState) {
-        LocationRequest locationRequest = LocationRequest.builder()
-                .name(locationName)
-                .state(locationState)
-                .build();
-        List<VendorEntity> vendor = vendorService.findVendorsByLocation(locationRequest);
-        log.info("Vendor got with success.");
-        return ResponseEntity.ok().body(vendor);
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping
-    @Operation(description = "Get all vendors from database.", hidden = true)
-    public ResponseEntity<Object> getAllVendors() {
-        log.info("Getting all vendors...");
-        final List<VendorEntity> vendors = vendorService.findAllVendors();
-        log.info("Vendors got with success.");
-        return ResponseEntity.ok().body(vendors);
-    }
 }

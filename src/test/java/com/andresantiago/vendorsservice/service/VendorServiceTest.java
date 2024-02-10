@@ -42,21 +42,6 @@ public class VendorServiceTest {
     }
 
     @Test
-    void shouldReturnAllVendors() {
-        List<VendorEntity> allVendors = List.of(VendorStub.createEntity());
-
-        when(vendorDatabaseInMemory.getVendors())
-                .thenReturn(allVendors);
-
-        List<VendorEntity> vendors = vendorService.findAllVendors();
-
-        verify(vendorDatabaseInMemory, times(1)).getVendors();
-        assertNotNull(vendors);
-        VendorEntity vendor = vendors.get(0);
-        assertEquals("1", vendor.getTaxId());
-    }
-
-    @Test
     void shouldReturnAVendorWithSuccess_givenAValidTaxId() {
         String vendorTaxId = "1";
         VendorEntity vendorStub = VendorStub.createEntity();

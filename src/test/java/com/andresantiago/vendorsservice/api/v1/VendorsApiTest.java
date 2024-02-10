@@ -159,15 +159,4 @@ public class VendorsApiTest {
                         .header(HttpHeaders.AUTHORIZATION, "BASIC"))
                 .andExpect(status().is(HttpStatus.OK.value()));
     }
-
-    @Test
-    void shouldUReturnAllVendor_withSuccess() throws Exception {
-        String locationName = "Capivari do Sul";
-        String locationState = "RS";
-        mockMvc.perform(get(BASE_URI + "/location")
-                        .header(HttpHeaders.AUTHORIZATION, "BASIC")
-                        .param("locationName", locationName)
-                        .param("locationState", locationState))
-                .andExpect(status().is(HttpStatus.OK.value()));
-    }
 }
