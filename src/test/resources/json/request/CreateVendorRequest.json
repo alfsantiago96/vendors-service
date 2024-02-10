@@ -1,0 +1,14 @@
+{
+  "name": "New Vendor",
+  "taxId": "1",
+  "location": {
+    "name": "Capivari do Sul",
+    "state": "RS"
+  },
+  "services": [
+    {
+      "serviceCategory": "AIR_CONDITIONING",
+      "isCompliant": true
+    }
+  ]
+}

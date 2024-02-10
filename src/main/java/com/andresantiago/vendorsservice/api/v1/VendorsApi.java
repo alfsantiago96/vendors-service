@@ -65,7 +65,7 @@ public class VendorsApi {
     public ResponseEntity<Void> createVendor(@RequestBody @Valid CreateVendorRequest request) {
         log.info("Creating a vendor with the request: {}", request);
         vendorService.createVendor(request);
-        String test = "Vendor Created with Success";
+        log.info("Vendor Created with Success");
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -73,10 +73,10 @@ public class VendorsApi {
     @PutMapping("/{taxId}/jobs")
     @Operation(description = "Include a new service to a Vendor")
     public ResponseEntity<Void> includeJob(@PathVariable String taxId,
-                                           @RequestParam ServiceCategoryEnum serviceCategoriesEnum,
+                                           @RequestParam ServiceCategoryEnum serviceCategoryEnum,
                                            @RequestParam boolean isCompliant) {
         log.info("Including a new service to the vendor taxId: {}", taxId);
-        vendorService.includeService(taxId, serviceCategoriesEnum, isCompliant);
+        vendorService.includeService(taxId, serviceCategoryEnum, isCompliant);
         return ResponseEntity.ok().build();
     }
 
