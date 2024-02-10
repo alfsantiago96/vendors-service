@@ -1,0 +1,10 @@
+{
+  "serviceCategory":"AIR_CONDITIONING",
+  "location":{
+    "name":"Capivari do Sul",
+    "state":"RS"
+  },
+  "totalVendors":5,
+  "totalCompliant":3,
+  "totalNotCompliant":2
+}

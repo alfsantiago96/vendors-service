@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -32,9 +33,9 @@ public class VendorsApi {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/jobs")
     @Operation(description = "Get potential vendors for a Job.")
-    public ResponseEntity<Object> getPotentialVendorsByJob(@RequestParam String locationName,
-                                                           @RequestParam String locationState,
-                                                           @RequestParam ServiceCategoryEnum service) {
+    public ResponseEntity<List<VendorDto>> getPotentialVendorsByJob(@RequestParam String locationName,
+                                                                    @RequestParam String locationState,
+                                                                    @RequestParam ServiceCategoryEnum service) {
         LocationRequest locationRequest = LocationRequest.builder()
                 .name(locationName)
                 .state(locationState)
@@ -46,9 +47,9 @@ public class VendorsApi {
 
     @GetMapping("/jobs/statistics")
     @Operation(description = "Get vendors statistics by Service and Location")
-    public ResponseEntity<Object> getVendorsStatisticsByJob(@RequestParam String locationName,
-                                                            @RequestParam String locationState,
-                                                            @RequestParam ServiceCategoryEnum service) {
+    public ResponseEntity<VendorsStatisticsDto> getVendorsStatisticsByJob(@RequestParam String locationName,
+                                                                          @RequestParam String locationState,
+                                                                          @RequestParam ServiceCategoryEnum service) {
         LocationRequest locationRequest = LocationRequest.builder()
                 .name(locationName)
                 .state(locationState)
@@ -61,11 +62,11 @@ public class VendorsApi {
     @PreAuthorize("hasRole('ROLE_VENDOR_CREATOR')")
     @PostMapping
     @Operation(description = "Creates a vendor")
-    public ResponseEntity<Object> createVendor(@RequestBody @Valid CreateVendorRequest request) {
+    public ResponseEntity<Void> createVendor(@RequestBody @Valid CreateVendorRequest request) {
         log.info("Creating a vendor with the request: {}", request);
         vendorService.createVendor(request);
         String test = "Vendor Created with Success";
-        return ResponseEntity.ok().body(test);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

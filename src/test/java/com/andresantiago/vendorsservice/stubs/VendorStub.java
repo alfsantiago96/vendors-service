@@ -1,5 +1,7 @@
 package com.andresantiago.vendorsservice.stubs;
 
+import com.andresantiago.vendorsservice.dto.VendorDto;
+import com.andresantiago.vendorsservice.dto.VendorsStatisticsDto;
 import com.andresantiago.vendorsservice.entity.VendorEntity;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
 
@@ -28,6 +30,27 @@ public class VendorStub {
                         ServiceStub.createDto(
                                 ServiceCategoryEnum.AIR_CONDITIONING,
                                 false)))
+                .build();
+    }
+
+    public static VendorDto createDto() {
+        return VendorDto.builder()
+                .id("id")
+                .name("Vendor 1")
+                .taxId("1")
+                .isCompliant(true)
+                .location(LocationStub.createEntity("Capivari do Sul", "RS"))
+                .service(ServiceCategoryEnum.AIR_CONDITIONING)
+                .build();
+    }
+
+    public static VendorsStatisticsDto createVendorsStatisticsDto() {
+        return VendorsStatisticsDto.builder()
+                .serviceCategory(ServiceCategoryEnum.AIR_CONDITIONING)
+                .location(LocationStub.createRequest("Capivari do Sul", "RS"))
+                .totalVendors(5)
+                .totalCompliant(3)
+                .totalNotCompliant(2)
                 .build();
     }
 }
