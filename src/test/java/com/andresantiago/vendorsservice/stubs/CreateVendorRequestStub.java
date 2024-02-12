@@ -1,6 +1,6 @@
 package com.andresantiago.vendorsservice.stubs;
 
-import com.andresantiago.vendorsservice.api.v1.request.CreateVendorRequest;
+import com.andresantiago.vendorsservice.api.rest.v1.request.CreateVendorRequest;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
 
 public class CreateVendorRequestStub {

@@ -1,10 +1,10 @@
 package com.andresantiago.vendorsservice.repository;
 
-import com.andresantiago.vendorsservice.dto.ServiceDto;
 import com.andresantiago.vendorsservice.entity.LocationEntity;
 import com.andresantiago.vendorsservice.entity.VendorEntity;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
 import com.andresantiago.vendorsservice.exception.BusinessException;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +45,7 @@ public class VendorDatabaseInMemory {
         return null;
     }
 
+    @PostConstruct
     public void createVendorsData() {
         log.info("Creating vendors database...");
         final VendorEntity vendor1 = VendorEntity.builder()

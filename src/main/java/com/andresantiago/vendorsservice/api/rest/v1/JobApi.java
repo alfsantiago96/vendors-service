@@ -1,6 +1,6 @@
-package com.andresantiago.vendorsservice.api.v1;
+package com.andresantiago.vendorsservice.api.rest.v1;
 
-import com.andresantiago.vendorsservice.api.v1.request.LocationRequest;
+import com.andresantiago.vendorsservice.api.rest.v1.request.LocationRequest;
 import com.andresantiago.vendorsservice.dto.JobDto;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
 import com.andresantiago.vendorsservice.service.JobService;

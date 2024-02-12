@@ -1,7 +1,7 @@
 package com.andresantiago.vendorsservice.mapper;
 
-import com.andresantiago.vendorsservice.api.v1.request.CreateVendorRequest;
-import com.andresantiago.vendorsservice.api.v1.request.LocationRequest;
+import com.andresantiago.vendorsservice.api.rest.v1.request.CreateVendorRequest;
+import com.andresantiago.vendorsservice.api.rest.v1.request.LocationRequest;
 import com.andresantiago.vendorsservice.entity.LocationEntity;
 import com.andresantiago.vendorsservice.entity.VendorEntity;
 

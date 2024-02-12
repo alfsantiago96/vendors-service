@@ -1,7 +1,7 @@
 package com.andresantiago.vendorsservice.service;
 
-import com.andresantiago.vendorsservice.api.v1.request.CreateVendorRequest;
-import com.andresantiago.vendorsservice.api.v1.request.LocationRequest;
+import com.andresantiago.vendorsservice.api.rest.v1.request.CreateVendorRequest;
+import com.andresantiago.vendorsservice.api.rest.v1.request.LocationRequest;
 import com.andresantiago.vendorsservice.dto.ServiceDto;
 import com.andresantiago.vendorsservice.dto.VendorDto;
 import com.andresantiago.vendorsservice.dto.VendorsStatisticsDto;

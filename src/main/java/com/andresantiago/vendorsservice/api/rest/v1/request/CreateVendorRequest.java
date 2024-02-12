@@ -1,7 +1,6 @@
-package com.andresantiago.vendorsservice.api.v1.request;
+package com.andresantiago.vendorsservice.api.rest.v1.request;
 
 import com.andresantiago.vendorsservice.dto.ServiceDto;
-import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;

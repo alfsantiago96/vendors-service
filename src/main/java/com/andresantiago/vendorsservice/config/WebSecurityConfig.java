@@ -29,7 +29,18 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((request) -> request
                         .requestMatchers(AUTH_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/app/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/test/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/app/test/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/app/vendors/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/vendors/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/app/test/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/app/vendors/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/app/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/test/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/vendors/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/v1/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/v1/**").permitAll()
                         .anyRequest().authenticated()
@@ -57,7 +68,15 @@ public class WebSecurityConfig {
             "swagger-ui/**",
             "/csa/api/token",
             "/actuator/**",
-            "/health/**"
+            "/health/**",
+            "index.html",
+            "/index.html",
+            "/app/**",
+            "/app/test/**",
+            "/test/**",
+            "/app/**",
+            "/app/vendors/**",
+            "/vendors/**"
     };
 
     //    @Bean

@@ -1,4 +1,4 @@
-package com.andresantiago.vendorsservice.api.v1.request;
+package com.andresantiago.vendorsservice.api.rest.v1.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;

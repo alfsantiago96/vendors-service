@@ -1,6 +1,6 @@
 package com.andresantiago.vendorsservice.service;
 
-import com.andresantiago.vendorsservice.api.v1.request.LocationRequest;
+import com.andresantiago.vendorsservice.api.rest.v1.request.LocationRequest;
 import com.andresantiago.vendorsservice.dto.JobDto;
 import com.andresantiago.vendorsservice.entity.JobEntity;
 import com.andresantiago.vendorsservice.entity.VendorEntity;

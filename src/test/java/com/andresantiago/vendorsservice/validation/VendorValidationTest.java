@@ -1,6 +1,6 @@
 package com.andresantiago.vendorsservice.validation;
 
-import com.andresantiago.vendorsservice.api.v1.request.LocationRequest;
+import com.andresantiago.vendorsservice.api.rest.v1.request.LocationRequest;
 import com.andresantiago.vendorsservice.entity.VendorEntity;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
 import com.andresantiago.vendorsservice.exception.BusinessException;

@@ -1,6 +1,6 @@
 package com.andresantiago.vendorsservice.service;
 
-import com.andresantiago.vendorsservice.api.v1.request.CreateVendorRequest;
+import com.andresantiago.vendorsservice.api.rest.v1.request.CreateVendorRequest;
 import com.andresantiago.vendorsservice.entity.VendorEntity;
 import com.andresantiago.vendorsservice.exception.BusinessException;
 import com.andresantiago.vendorsservice.repository.VendorDatabaseInMemory;
@@ -11,8 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
