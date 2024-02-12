@@ -41,10 +41,6 @@ public class VendorDatabaseInMemory {
         return first.get();
     }
 
-    public VendorEntity updateVendor(VendorEntity vendor) {
-        return null;
-    }
-
     @PostConstruct
     public void createVendorsData() {
         log.info("Creating vendors database...");

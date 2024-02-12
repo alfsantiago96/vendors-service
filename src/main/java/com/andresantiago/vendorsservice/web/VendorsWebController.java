@@ -25,7 +25,7 @@ public class VendorsWebController {
     }
 
     @PostMapping("/vendors")
-    public String getVendorsStatisticsByJob(@ModelAttribute GetVendorsStatisticsByJobRequest request, Model model) {
+    public String getVendorsStatisticsByJob(@ModelAttribute("request") GetVendorsStatisticsByJobRequest request, Model model) {
         log.info("Model Request: {}", request);
         LocationRequest locationRequest = LocationRequest.builder()
                 .name(request.getLocationName())

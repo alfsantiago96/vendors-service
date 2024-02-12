@@ -194,6 +194,54 @@ public class VendorsApiContextTest {
                 .andExpect(content().json(output));
     }
 
+    @Test
+    @Order(11)
+    void givenAValidContract_shouldNotCreateAVendor_whenUserItAlreadyExists() throws Exception {
+        String input = new String(Files.readAllBytes(Paths.get("src/test/resources/json/request/CreateVendorAlreadyExistsRequest.json")));
+
+        mockMvc.perform(post(BASE_URI)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("vendor", "123"))
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(input))
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    @Order(12)
+    void shouldThrowBusinessException_whenVendorDoesNotExists() throws Exception {
+        String vendorTaxId = "20";
+        mockMvc.perform(get(BASE_URI + "/" + vendorTaxId)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("andre", "123")))
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
+    @Order(13)
+    void givenAValidContract_shouldNotCreateAVendor_whenUserIsDoesNotExists() throws Exception {
+        String input = new String(Files.readAllBytes(Paths.get("src/test/resources/json/request/CreateVendorRequest.json")));
+
+        mockMvc.perform(post(BASE_URI)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("jonas", "123"))
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(input))
+                .andExpect(status().is(HttpStatus.UNAUTHORIZED.value()));
+    }
+
+    @Test
+    @Order(14)
+    void givenAValidContract_shouldNotCreateAVendor_whenUserPasswordIsWrong() throws Exception {
+        String input = new String(Files.readAllBytes(Paths.get("src/test/resources/json/request/CreateVendorRequest.json")));
+
+        mockMvc.perform(post(BASE_URI)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("andre", "1233"))
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(input))
+                .andExpect(status().is(HttpStatus.UNAUTHORIZED.value()));
+    }
+
     private static String getCreateVendorRequestAsJson(String vendorNumber, LocationRequest locationRequest, ServiceDto serviceDto) throws JsonProcessingException {
         List<ServiceDto> services = new ArrayList<>();
         services.add(serviceDto);

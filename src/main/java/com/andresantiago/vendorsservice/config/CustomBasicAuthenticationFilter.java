@@ -72,10 +72,6 @@ public class CustomBasicAuthenticationFilter extends OncePerRequestFilter {
         return new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
     }
 
-    private boolean checkPassword(String userPassword, String loginPassword) {
-        return passwordEncoder().matches(loginPassword, userPassword);
-    }
-
     private String decodeBase64(String base64) {
         byte[] decodeBytes = Base64.getDecoder().decode(base64);
         return new String(decodeBytes);
