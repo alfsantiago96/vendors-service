@@ -1,10 +1,16 @@
 package com.andresantiago.vendorsservice.service;
 
 import com.andresantiago.vendorsservice.api.rest.v1.request.CreateVendorRequest;
+import com.andresantiago.vendorsservice.api.rest.v1.request.LocationRequest;
+import com.andresantiago.vendorsservice.dto.ServiceDto;
+import com.andresantiago.vendorsservice.dto.VendorDto;
+import com.andresantiago.vendorsservice.dto.VendorsStatisticsDto;
 import com.andresantiago.vendorsservice.entity.VendorEntity;
+import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
 import com.andresantiago.vendorsservice.exception.BusinessException;
 import com.andresantiago.vendorsservice.repository.VendorDatabaseInMemory;
 import com.andresantiago.vendorsservice.stubs.CreateVendorRequestStub;
+import com.andresantiago.vendorsservice.stubs.LocationStub;
 import com.andresantiago.vendorsservice.stubs.VendorStub;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,9 +18,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
@@ -67,5 +73,208 @@ public class VendorServiceTest {
 
         verify(vendorDatabaseInMemory, times(1)).getVendorByTaxId(eq(vendorTaxId));
         assertEquals("Vendor not found", exception.getMessage());
+    }
+
+    @Test
+    void shouldFilterVendorsByService() {
+        VendorEntity vendorAirConditioning = VendorStub.createEntity(ServiceCategoryEnum.AIR_CONDITIONING, true);
+        VendorEntity vendorLandscapeMaintenance = VendorStub.createEntity(ServiceCategoryEnum.LANDSCAPING_MAINTENANCE, true);
+
+        List<VendorEntity> vendors = List.of(vendorAirConditioning, vendorLandscapeMaintenance);
+        ServiceCategoryEnum serviceCategoryFilter = ServiceCategoryEnum.AIR_CONDITIONING;
+
+        List<VendorEntity> filteredVendors = vendorService.filterVendorsByService(vendors, serviceCategoryFilter);
+
+        assertNotNull(filteredVendors);
+        assertFalse(filteredVendors.isEmpty());
+        assertEquals(1, filteredVendors.size());
+        assertEquals(ServiceCategoryEnum.AIR_CONDITIONING, filteredVendors.get(0).getServices().get(0).getServiceCategory());
+    }
+
+    @Test
+    void shouldFilterVendorsByLocation() {
+        VendorEntity vendorFromCapivari = VendorStub.createEntity("Capivari do Sul", "RS");
+        VendorEntity vendorFromFayette = VendorStub.createEntity("Fayette", "TX");
+
+        List<VendorEntity> vendors = List.of(vendorFromCapivari, vendorFromFayette);
+        LocationRequest locationRequest = LocationStub.createRequest("Capivari do Sul", "RS");
+
+        when(vendorDatabaseInMemory.getVendors())
+                .thenReturn(vendors);
+
+        List<VendorEntity> filteredVendors = vendorService.findVendorsByLocation(locationRequest);
+
+        assertNotNull(filteredVendors);
+        assertFalse(filteredVendors.isEmpty());
+        assertEquals(1, filteredVendors.size());
+        assertEquals("Capivari do Sul", filteredVendors.get(0).getLocation().getName());
+        assertEquals("RS", filteredVendors.get(0).getLocation().getState());
+    }
+
+    @Test
+    void shouldReturnAllVendorsFromDatabase() {
+        when(vendorDatabaseInMemory.getVendors())
+                .thenReturn(List.of(VendorStub.createEntity()));
+
+        List<VendorEntity> vendors = vendorService.findAllVendors();
+
+        assertNotNull(vendors);
+        assertFalse(vendors.isEmpty());
+        assertEquals(1, vendors.size());
+    }
+
+    @Test
+    void shouldUpdateAVendorComplianceWithSuccess() {
+        String vendorTaxId = "1";
+        ServiceCategoryEnum vendorServiceCategory = ServiceCategoryEnum.AIR_CONDITIONING;
+        boolean isCompliantUpdate = true;
+
+        VendorEntity vendor = VendorStub.createEntity(ServiceCategoryEnum.AIR_CONDITIONING, false);
+
+        when(vendorDatabaseInMemory.getVendorByTaxId(eq(vendorTaxId)))
+                .thenReturn(vendor);
+
+        vendorService.updateCompliance(vendorTaxId, vendorServiceCategory, isCompliantUpdate);
+
+        assertTrue(vendor.getServices().get(0).isCompliant());
+    }
+
+    @Test
+    void shouldThrowBusinessException_AtUpdateAVendorCompliance_whenVendorDoesNotProvideTheService() {
+        String vendorTaxId = "1";
+        ServiceCategoryEnum vendorServiceCategory = ServiceCategoryEnum.LANDSCAPING_MAINTENANCE;
+        boolean isCompliantUpdate = true;
+
+        VendorEntity vendor = VendorStub.createEntity(ServiceCategoryEnum.AIR_CONDITIONING, false);
+
+        when(vendorDatabaseInMemory.getVendorByTaxId(eq(vendorTaxId)))
+                .thenReturn(vendor);
+
+        BusinessException businessException = assertThrows(BusinessException.class,
+                () -> vendorService.updateCompliance(vendorTaxId, vendorServiceCategory, isCompliantUpdate));
+
+        assertEquals("Vendor does not offer this service.", businessException.getMessage());
+    }
+
+    @Test
+    void shouldIncludeAServiceToAVendorWithSuccess() {
+        String vendorTaxId = "1";
+        ServiceCategoryEnum serviceToBeIncluded = ServiceCategoryEnum.LANDSCAPING_MAINTENANCE;
+        boolean isCompliant = true;
+
+        VendorEntity vendor = VendorStub.createEntity(ServiceCategoryEnum.AIR_CONDITIONING, false);
+
+        when(vendorDatabaseInMemory.getVendorByTaxId(eq(vendorTaxId)))
+                .thenReturn(vendor);
+
+        vendorService.includeService(vendorTaxId, serviceToBeIncluded, isCompliant);
+
+        List<ServiceDto> updatedVendorServices = vendor.getServices();
+        assertEquals(2, updatedVendorServices.size());
+        assertEquals(ServiceCategoryEnum.LANDSCAPING_MAINTENANCE, updatedVendorServices.get(1).getServiceCategory());
+        assertTrue(updatedVendorServices.get(1).isCompliant());
+    }
+
+    @Test
+    void shouldThrowBusinessException_atIncludingAServiceToAVendor_whenItAlreadyProvideTheService() {
+        String vendorTaxId = "1";
+        ServiceCategoryEnum serviceToBeIncluded = ServiceCategoryEnum.AIR_CONDITIONING;
+        boolean isCompliant = true;
+
+        VendorEntity vendor = VendorStub.createEntity(ServiceCategoryEnum.AIR_CONDITIONING, false);
+
+        when(vendorDatabaseInMemory.getVendorByTaxId(eq(vendorTaxId)))
+                .thenReturn(vendor);
+
+
+        BusinessException businessException = assertThrows(BusinessException.class,
+                () -> vendorService.includeService(vendorTaxId, serviceToBeIncluded, isCompliant));
+
+        List<ServiceDto> updatedVendorServices = vendor.getServices();
+        assertEquals(1, updatedVendorServices.size());
+        assertEquals("Vendor already offer this service.", businessException.getMessage());
+    }
+
+    @Test
+    void givenTheJob_shouldReturnPotentialVendorsSortedByCompliance() {
+        LocationRequest locationRequest = LocationStub.createRequest("Capivari do Sul", "RS");
+        ServiceCategoryEnum serviceCategory = ServiceCategoryEnum.AIR_CONDITIONING;
+
+        List<VendorEntity> vendorsListStub = createVendorsForTesting();
+
+        when(vendorDatabaseInMemory.getVendors())
+                .thenReturn(vendorsListStub);
+
+        List<VendorDto> potentialVendorsByJob = vendorService.findPotentialVendorsByJob(locationRequest, serviceCategory);
+
+        assertNotNull(potentialVendorsByJob);
+        assertFalse(potentialVendorsByJob.isEmpty());
+        assertEquals(3, potentialVendorsByJob.size());
+
+        assertEquals("Vendor 3", potentialVendorsByJob.get(0).getName());
+        assertTrue(potentialVendorsByJob.get(0).isCompliant());
+
+        assertEquals("Vendor 5", potentialVendorsByJob.get(1).getName());
+        assertTrue(potentialVendorsByJob.get(1).isCompliant());
+
+        assertEquals("Vendor 2", potentialVendorsByJob.get(2).getName());
+        assertFalse(potentialVendorsByJob.get(2).isCompliant());
+
+    }
+
+    @Test
+    void shouldReturnVendorsStatistics_givenTheJob() {
+        LocationRequest locationRequest = LocationStub.createRequest("Capivari do Sul", "RS");
+        ServiceCategoryEnum serviceCategory = ServiceCategoryEnum.AIR_CONDITIONING;
+
+        List<VendorEntity> vendorsForTesting = createVendorsForTesting();
+
+        when(vendorDatabaseInMemory.getVendors())
+                .thenReturn(vendorsForTesting);
+
+        VendorsStatisticsDto statistics = vendorService.getVendorsStatisticsByJob(locationRequest, serviceCategory);
+
+        assertNotNull(statistics);
+        assertEquals(ServiceCategoryEnum.AIR_CONDITIONING, statistics.getServiceCategory());
+        assertEquals("Capivari do Sul", statistics.getLocation().getName());
+        assertEquals("RS", statistics.getLocation().getState());
+        assertEquals(3, statistics.getTotalVendors());
+        assertEquals(2, statistics.getTotalCompliant());
+        assertEquals(1, statistics.getTotalNotCompliant());
+    }
+
+    private static List<VendorEntity> createVendorsForTesting() {
+        VendorEntity vendor1 = VendorStub.createEntity("Vendor 1",
+                "Porto Alegre", "RS",
+                ServiceCategoryEnum.AIR_CONDITIONING, false);
+
+        VendorEntity vendor2 = VendorStub.createEntity("Vendor 2",
+                "Capivari do Sul", "RS",
+                ServiceCategoryEnum.AIR_CONDITIONING, false);
+
+        VendorEntity vendor3 = VendorStub.createEntity("Vendor 3",
+                "Capivari do Sul", "RS",
+                ServiceCategoryEnum.AIR_CONDITIONING, true);
+
+        VendorEntity vendor4 = VendorStub.createEntity("Vendor 4",
+                "Capivari do Sul", "RS",
+                ServiceCategoryEnum.LANDSCAPING, true);
+
+        VendorEntity vendor5 = VendorStub.createEntity("Vendor 5",
+                "Capivari do Sul", "RS",
+                ServiceCategoryEnum.AIR_CONDITIONING, true);
+
+        VendorEntity vendor6 = VendorStub.createEntity("Vendor 6",
+                "Rio de Janeiro", "RJ",
+                ServiceCategoryEnum.AIR_CONDITIONING, true);
+
+        return List.of(
+                vendor1,
+                vendor2,
+                vendor3,
+                vendor4,
+                vendor5,
+                vendor6
+        );
     }
 }

@@ -20,6 +20,46 @@ public class VendorStub {
                 .build();
     }
 
+    public static VendorEntity createEntity(ServiceCategoryEnum serviceCategoryEnum, boolean isCompliant) {
+        return VendorEntity.builder()
+                .id("1")
+                .name("Vendor 1")
+                .taxId("1")
+                .location(LocationStub.createEntity("Capivari do Sul", "RS"))
+                .services(ServiceStub.createList(
+                        ServiceStub.createDto(
+                                serviceCategoryEnum,
+                                isCompliant)))
+                .build();
+    }
+
+    public static VendorEntity createEntity(String locationName, String locationState) {
+        return VendorEntity.builder()
+                .id("1")
+                .name("Vendor 1")
+                .taxId("1")
+                .location(LocationStub.createEntity(locationName, locationState))
+                .services(ServiceStub.createList(
+                        ServiceStub.createDto(
+                                ServiceCategoryEnum.AIR_CONDITIONING,
+                                true)))
+                .build();
+    }
+
+    public static VendorEntity createEntity(String vendorName, String locationName, String locationState,
+                                            ServiceCategoryEnum serviceCategoryEnum, boolean isCompliant) {
+        return VendorEntity.builder()
+                .id("1")
+                .name(vendorName)
+                .taxId("1")
+                .location(LocationStub.createEntity(locationName, locationState))
+                .services(ServiceStub.createList(
+                        ServiceStub.createDto(
+                                serviceCategoryEnum,
+                                isCompliant)))
+                .build();
+    }
+
     public static VendorEntity createEntityNotCompliant() {
         return VendorEntity.builder()
                 .id("1")

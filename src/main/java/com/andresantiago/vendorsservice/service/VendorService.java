@@ -80,6 +80,9 @@ public class VendorService {
     public void includeService(String taxId, ServiceCategoryEnum service, boolean isCompliant) {
         log.info("Including service to vendor. taxId: {}, service: {}", taxId, service);
         VendorEntity vendor = findVendorByTaxId(taxId);
+        if (VendorValidation.isOfferingTheService(vendor, service)) {
+            throw new BusinessException("Vendor already offer this service.");
+        }
         vendor.addService(service, isCompliant);
         log.info("Job Include with success. Jobs");
     }
