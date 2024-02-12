@@ -28,9 +28,34 @@ public class CustomBasicAuthenticationFilter extends OncePerRequestFilter {
     private static final String BASIC = "Basic ";
     private final UserDatabaseInMemory userDatabaseInMemory;
 
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+    private void setAuthentication(UserEntity user) {
+        Authentication authentication = createAuthenticationToken(user);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
+
+    private Authentication createAuthenticationToken(UserEntity user) {
+        UserPrincipal userPrincipal = UserPrincipal.create(user);
+        log.info("Creating Authentication: User: {}, passwd: {}", userPrincipal.getUsername(), userPrincipal.getPassword());
+        return new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
+    }
+
+    private String decodeBase64(String base64) {
+        byte[] decodeBytes = Base64.getDecoder().decode(base64);
+        return new String(decodeBytes);
+    }
+
+    private boolean isBasicAuthentication(HttpServletRequest request) {
+        String header = getHeader(request);
+        return header != null && header.startsWith(BASIC);
+    }
+
+    private String getHeader(HttpServletRequest request) {
+        return request.getHeader(AUTHORIZATION);
+    }
+
+    //    public PasswordEncoder passwordEncoder(){
+//        return new BCryptPasswordEncoder();
+//    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -60,29 +85,5 @@ public class CustomBasicAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    private void setAuthentication(UserEntity user) {
-        Authentication authentication = createAuthenticationToken(user);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
-
-    private Authentication createAuthenticationToken(UserEntity user) {
-        UserPrincipal userPrincipal = UserPrincipal.create(user);
-        return new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
-    }
-
-    private String decodeBase64(String base64) {
-        byte[] decodeBytes = Base64.getDecoder().decode(base64);
-        return new String(decodeBytes);
-    }
-
-    private boolean isBasicAuthentication(HttpServletRequest request) {
-        String header = getHeader(request);
-        return header != null && header.startsWith(BASIC);
-    }
-
-    private String getHeader(HttpServletRequest request) {
-        return request.getHeader(AUTHORIZATION);
     }
 }
