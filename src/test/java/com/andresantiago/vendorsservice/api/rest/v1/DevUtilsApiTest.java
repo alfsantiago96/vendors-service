@@ -1,4 +1,4 @@
-package com.andresantiago.vendorsservice.api.v1;
+package com.andresantiago.vendorsservice.api.rest.v1;
 
 import com.andresantiago.vendorsservice.api.rest.v1.DevUtilsApi;
 import com.andresantiago.vendorsservice.repository.VendorDatabaseInMemory;

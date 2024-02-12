@@ -1,4 +1,4 @@
-package com.andresantiago.vendorsservice.api.v1;
+package com.andresantiago.vendorsservice.api.rest.v1;
 
 import com.andresantiago.vendorsservice.api.rest.v1.JobApi;
 import com.andresantiago.vendorsservice.dto.JobDto;
@@ -47,7 +47,7 @@ public class JobApiTest {
     void shouldHireAJob_givenAValidContract() throws Exception {
         String companyTaxId = "999";
         String serviceCategory = ServiceCategoryEnum.AIR_CONDITIONING.name();
-        String vendorTaxId = "1";
+        String vendorTaxId = "7";
         String locationName = "Capivari do Sul";
         String locationState = "RS";
 

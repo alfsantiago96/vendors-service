@@ -1,0 +1,10 @@
+{
+  "serviceCategory":"AIR_CONDITIONING",
+  "location":{
+    "name":"Fayette",
+    "state":"TX"
+  },
+  "totalVendors":3,
+  "totalCompliant":1,
+  "totalNotCompliant":2
+}

@@ -84,6 +84,12 @@ public class VendorDatabaseInMemory {
                 .location(buildLocation("Glades", "FL"))
                 .build();
 
+        final VendorEntity vendor7 = VendorEntity.builder()
+                .name("Vendor 7")
+                .taxId("7")
+                .location(buildLocation("Capivari do Sul", "RS"))
+                .build();
+
         vendor1.addService(ServiceCategoryEnum.LANDSCAPING_MAINTENANCE, false);
         vendor1.addService(ServiceCategoryEnum.AIR_CONDITIONING, false);
 
@@ -92,6 +98,7 @@ public class VendorDatabaseInMemory {
         vendor4.addService(ServiceCategoryEnum.LANDSCAPING_MAINTENANCE, true);
         vendor5.addService(ServiceCategoryEnum.AIR_CONDITIONING, false);
         vendor6.addService(ServiceCategoryEnum.AIR_CONDITIONING, true);
+        vendor7.addService(ServiceCategoryEnum.AIR_CONDITIONING, true);
 
 
         vendors.add(vendor1);
@@ -100,6 +107,7 @@ public class VendorDatabaseInMemory {
         vendors.add(vendor4);
         vendors.add(vendor5);
         vendors.add(vendor6);
+        vendors.add(vendor7);
     }
 
     public void eraseInMemoryData() {

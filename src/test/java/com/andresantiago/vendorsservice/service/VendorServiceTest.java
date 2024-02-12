@@ -200,7 +200,7 @@ public class VendorServiceTest {
         LocationRequest locationRequest = LocationStub.createRequest("Capivari do Sul", "RS");
         ServiceCategoryEnum serviceCategory = ServiceCategoryEnum.AIR_CONDITIONING;
 
-        List<VendorEntity> vendorsListStub = createVendorsForTesting();
+        List<VendorEntity> vendorsListStub = VendorStub.createVendorsForTesting();
 
         when(vendorDatabaseInMemory.getVendors())
                 .thenReturn(vendorsListStub);
@@ -227,7 +227,7 @@ public class VendorServiceTest {
         LocationRequest locationRequest = LocationStub.createRequest("Capivari do Sul", "RS");
         ServiceCategoryEnum serviceCategory = ServiceCategoryEnum.AIR_CONDITIONING;
 
-        List<VendorEntity> vendorsForTesting = createVendorsForTesting();
+        List<VendorEntity> vendorsForTesting = VendorStub.createVendorsForTesting();
 
         when(vendorDatabaseInMemory.getVendors())
                 .thenReturn(vendorsForTesting);
@@ -241,40 +241,5 @@ public class VendorServiceTest {
         assertEquals(3, statistics.getTotalVendors());
         assertEquals(2, statistics.getTotalCompliant());
         assertEquals(1, statistics.getTotalNotCompliant());
-    }
-
-    private static List<VendorEntity> createVendorsForTesting() {
-        VendorEntity vendor1 = VendorStub.createEntity("Vendor 1",
-                "Porto Alegre", "RS",
-                ServiceCategoryEnum.AIR_CONDITIONING, false);
-
-        VendorEntity vendor2 = VendorStub.createEntity("Vendor 2",
-                "Capivari do Sul", "RS",
-                ServiceCategoryEnum.AIR_CONDITIONING, false);
-
-        VendorEntity vendor3 = VendorStub.createEntity("Vendor 3",
-                "Capivari do Sul", "RS",
-                ServiceCategoryEnum.AIR_CONDITIONING, true);
-
-        VendorEntity vendor4 = VendorStub.createEntity("Vendor 4",
-                "Capivari do Sul", "RS",
-                ServiceCategoryEnum.LANDSCAPING, true);
-
-        VendorEntity vendor5 = VendorStub.createEntity("Vendor 5",
-                "Capivari do Sul", "RS",
-                ServiceCategoryEnum.AIR_CONDITIONING, true);
-
-        VendorEntity vendor6 = VendorStub.createEntity("Vendor 6",
-                "Rio de Janeiro", "RJ",
-                ServiceCategoryEnum.AIR_CONDITIONING, true);
-
-        return List.of(
-                vendor1,
-                vendor2,
-                vendor3,
-                vendor4,
-                vendor5,
-                vendor6
-        );
     }
 }
