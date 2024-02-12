@@ -2,15 +2,12 @@ package com.andresantiago.vendorsservice.dto;
 
 import com.andresantiago.vendorsservice.api.rest.v1.request.LocationRequest;
 import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@Getter
 public class VendorsStatisticsDto {
 
     public ServiceCategoryEnum serviceCategory;

@@ -9,7 +9,6 @@ public class VendorStub {
 
     public static VendorEntity createEntity() {
         return VendorEntity.builder()
-                .id("1")
                 .name("Vendor 1")
                 .taxId("1")
                 .location(LocationStub.createEntity("Capivari do Sul", "RS"))
@@ -22,7 +21,6 @@ public class VendorStub {
 
     public static VendorEntity createEntity(ServiceCategoryEnum serviceCategoryEnum, boolean isCompliant) {
         return VendorEntity.builder()
-                .id("1")
                 .name("Vendor 1")
                 .taxId("1")
                 .location(LocationStub.createEntity("Capivari do Sul", "RS"))
@@ -35,7 +33,6 @@ public class VendorStub {
 
     public static VendorEntity createEntity(String locationName, String locationState) {
         return VendorEntity.builder()
-                .id("1")
                 .name("Vendor 1")
                 .taxId("1")
                 .location(LocationStub.createEntity(locationName, locationState))
@@ -49,7 +46,6 @@ public class VendorStub {
     public static VendorEntity createEntity(String vendorName, String locationName, String locationState,
                                             ServiceCategoryEnum serviceCategoryEnum, boolean isCompliant) {
         return VendorEntity.builder()
-                .id("1")
                 .name(vendorName)
                 .taxId("1")
                 .location(LocationStub.createEntity(locationName, locationState))
@@ -62,7 +58,6 @@ public class VendorStub {
 
     public static VendorEntity createEntityNotCompliant() {
         return VendorEntity.builder()
-                .id("1")
                 .name("Vendor 1")
                 .taxId("1")
                 .location(LocationStub.createEntity("Capivari do Sul", "RS"))
@@ -75,7 +70,6 @@ public class VendorStub {
 
     public static VendorDto createDto() {
         return VendorDto.builder()
-                .id("id")
                 .name("Vendor 1")
                 .taxId("1")
                 .isCompliant(true)

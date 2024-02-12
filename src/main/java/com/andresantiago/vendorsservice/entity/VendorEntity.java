@@ -13,13 +13,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Getter
-@Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class VendorEntity {
 
-    private String id;
     private String name;
     private String taxId;
     private LocationEntity location;
