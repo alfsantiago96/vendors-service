@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class VendorsWebView {
+public class VendorsWebController {
 
     private final VendorService vendorService;
     @GetMapping("/")
