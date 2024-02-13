@@ -15,7 +15,6 @@ public class JobStub {
                 .service(ServiceCategoryEnum.AIR_CONDITIONING)
                 .location(LocationStub.createRequest("Capivari do Sul", "RS"))
                 .vendor(VendorStub.createEntity())
-                .hireDate(LocalDateTime.of(2024, 1, 1, 0,0,0))
                 .build();
     }
 

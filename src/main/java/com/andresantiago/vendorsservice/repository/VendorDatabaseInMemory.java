@@ -94,7 +94,7 @@ public class VendorDatabaseInMemory {
         vendor4.addService(ServiceCategoryEnum.LANDSCAPING_MAINTENANCE, true);
         vendor5.addService(ServiceCategoryEnum.AIR_CONDITIONING, false);
         vendor6.addService(ServiceCategoryEnum.AIR_CONDITIONING, true);
-        vendor7.addService(ServiceCategoryEnum.AIR_CONDITIONING, true);
+        vendor7.addService(ServiceCategoryEnum.SNOW_AND_ICE_REMOVAL, true);
 
 
         vendors.add(vendor1);

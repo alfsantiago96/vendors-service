@@ -15,9 +15,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.util.Arrays;
 import java.util.Base64;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -35,7 +38,7 @@ public class CustomBasicAuthenticationFilter extends OncePerRequestFilter {
 
     private Authentication createAuthenticationToken(UserEntity user) {
         UserPrincipal userPrincipal = UserPrincipal.create(user);
-        log.info("Creating Authentication: User: {}, passwd: {}", userPrincipal.getUsername(), userPrincipal.getPassword());
+        log.info("Creating Authentication: User: {}, passwd: {}", userPrincipal.getUsername(), maskPassword(userPrincipal.getPassword()));
         return new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
     }
 
@@ -51,6 +54,15 @@ public class CustomBasicAuthenticationFilter extends OncePerRequestFilter {
 
     private String getHeader(HttpServletRequest request) {
         return request.getHeader(AUTHORIZATION);
+    }
+
+    private String maskPassword(String password) {
+        char[] chs = new char[3];
+        if (Objects.nonNull(password)) {
+            chs = new char[password.length()];
+            Arrays.fill(chs, '*');
+        }
+        return new String(chs);
     }
 
     //    public PasswordEncoder passwordEncoder(){

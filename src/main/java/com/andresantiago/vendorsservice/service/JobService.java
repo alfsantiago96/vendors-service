@@ -32,7 +32,6 @@ public class JobService {
                 .service(serviceCategory)
                 .vendor(vendor)
                 .location(locationRequest)
-                .hireDate(LocalDateTime.now())
                 .build();
         jobDatabaseInMemory.create(job);
     }

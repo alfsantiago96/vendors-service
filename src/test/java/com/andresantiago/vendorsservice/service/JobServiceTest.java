@@ -98,7 +98,6 @@ public class JobServiceTest {
         assertEquals(ServiceCategoryEnum.AIR_CONDITIONING, jobDto.getServiceCategory());
         assertEquals("Capivari do Sul", jobDto.getLocationRequest().getName());
         assertEquals("RS", jobDto.getLocationRequest().getState());
-        assertNotNull(jobDto.getHireDate());
     }
 
     @Test
@@ -119,7 +118,6 @@ public class JobServiceTest {
         assertEquals(ServiceCategoryEnum.AIR_CONDITIONING, jobDto.getServiceCategory());
         assertEquals("Capivari do Sul", jobDto.getLocationRequest().getName());
         assertEquals("RS", jobDto.getLocationRequest().getState());
-        assertNotNull(jobDto.getHireDate());
     }
 
     @Test

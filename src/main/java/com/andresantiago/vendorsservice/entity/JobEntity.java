@@ -20,5 +20,4 @@ public class JobEntity {
     private ServiceCategoryEnum service;
     private LocationRequest location;
     private VendorEntity vendor;
-    private LocalDateTime hireDate;
 }

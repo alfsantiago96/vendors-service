@@ -13,7 +13,6 @@ public class JobDtoMapper {
                 .vendorTaxId(jobEntity.getVendor().getTaxId())
                 .serviceCategory(jobEntity.getService())
                 .locationRequest(jobEntity.getLocation())
-                .hireDate(jobEntity.getHireDate())
                 .build();
     }
 }

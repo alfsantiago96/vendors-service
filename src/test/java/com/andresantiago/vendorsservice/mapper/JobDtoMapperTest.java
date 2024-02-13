@@ -23,8 +23,7 @@ public class JobDtoMapperTest {
                 () -> assertEquals("1", jobDto.getVendorTaxId()),
                 () -> assertEquals(ServiceCategoryEnum.AIR_CONDITIONING, jobDto.getServiceCategory()),
                 () -> assertEquals("Capivari do Sul", jobDto.getLocationRequest().getName()),
-                () -> assertEquals("RS", jobDto.getLocationRequest().getState()),
-                () -> assertNotNull(jobDto.getHireDate())
+                () -> assertEquals("RS", jobDto.getLocationRequest().getState())
         );
     }
 }
