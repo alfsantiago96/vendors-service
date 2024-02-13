@@ -18,7 +18,7 @@ you can create a hire intention, providing the vendor information.
 * Potential vendors: /v1/vendors/jobs
 * Hire a Job: /v1/jobs
 
-In addition, you que get statistics about de total vendors available for
+In addition, you can get statistics about de total vendors available for
 the given job.
 
 * Vendors statistics: /v1/vendors/statistics
