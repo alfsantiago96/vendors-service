@@ -6,9 +6,9 @@
 
 Here you will find:
 
-1. [Objective](###Objective)
-2. [Runing the application](###Runing the application)
-3. [Assessment Evaluation Hint](###Assessment Evaluation Hint)
+[Objective](Objective)
+[Runing the application](Runing%20the%20application)
+[Assessment Evaluation Hint](Assessment%20Evaluation%20Hint)
 ___
 
 ### Objective
