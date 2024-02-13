@@ -8,7 +8,7 @@ Here you will find:
 
 1. Objective 
 2. Runing the application 
-3. Assessment Evaluation Hint
+3. Assessment Evaluation Hints
 ___
 
 ### Objective
