@@ -1,0 +1,38 @@
+[
+  {
+    "id":null,
+    "name":"Vendor 3",
+    "taxId":"3",
+    "location":{
+      "id":null,
+      "name":"Fayette",
+      "state":"TX"
+    },
+    "service":"AIR_CONDITIONING",
+    "compliant":true
+  },
+  {
+    "id":null,
+    "name":"Vendor 1",
+    "taxId":"1",
+    "location":{
+      "id":null,
+      "name":"Fayette",
+      "state":"TX"
+    },
+    "service":"AIR_CONDITIONING",
+    "compliant":false
+  },
+  {
+    "id":null,
+    "name":"Vendor 2",
+    "taxId":"2",
+    "location":{
+      "id":null,
+      "name":"Fayette",
+      "state":"TX"
+    },
+    "service":"AIR_CONDITIONING",
+    "compliant":false
+  }
+]

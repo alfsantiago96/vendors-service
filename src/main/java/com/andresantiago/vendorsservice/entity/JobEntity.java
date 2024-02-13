@@ -1,20 +1,23 @@
 package com.andresantiago.vendorsservice.entity;
 
-import com.andresantiago.vendorsservice.enums.ServiceCategoriesEnum;
-import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.andresantiago.vendorsservice.api.rest.v1.request.LocationRequest;
+import com.andresantiago.vendorsservice.enums.ServiceCategoryEnum;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Document
+import java.time.LocalDateTime;
+
 @Getter
-@Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class JobEntity {
 
-    @Id
     private String id;
-    private ServiceCategoriesEnum category;
-    private LocationEntity location;
+    private String companyTaxId;
+    private ServiceCategoryEnum service;
+    private LocationRequest location;
+    private VendorEntity vendor;
 }

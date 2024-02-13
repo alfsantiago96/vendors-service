@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Job Statistics Result</title>
+</head>
+<body>
+<div style="text-align: center;">
+<h1>Job Statistics by Location</h1>
+<h2>Search Result</h2>
+
+
+<h3 th:text="${'Service Category: ' + serviceCategory}">Service Category</h3>
+<h3 th:text="${'Location: ' + locationName + ' - ' + locationState}">Location</h3>
+<h3 th:text="${'Total Vendors: ' + totalVendors}">Total Vendors</h3>
+<h3 th:text="${'Total Compliant: ' + totalCompliant}">Total Compliant</h3>
+<h3 th:text="${'Total not Compliant: '+ totalNotCompliant}">Total not Compliant</h3>
+    <a href="/" target="_blank">
+        <button>New Search</button>
+    </a>
+</div>
+</body>
+</html>
