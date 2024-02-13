@@ -1,0 +1,14 @@
+{
+  "name": "New Vendor 10",
+  "taxId": "10",
+  "location": {
+    "name": "Capivari do Sul",
+    "state": "RS"
+  },
+  "services": [
+    {
+      "serviceCategory": "INVALID_SERVICE",
+      "isCompliant": true
+    }
+  ]
+}

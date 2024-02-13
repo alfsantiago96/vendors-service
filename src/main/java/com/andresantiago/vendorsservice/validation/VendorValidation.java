@@ -41,8 +41,8 @@ public class VendorValidation {
     }
 
     public static boolean isSameLocation(VendorEntity vendor, LocationRequest locationRequest) {
-        boolean isSameCity = vendor.getLocation().getName().equals(locationRequest.getName());
-        boolean isSameState = vendor.getLocation().getState().equals(locationRequest.getState());
+        boolean isSameCity = vendor.getLocation().getName().equalsIgnoreCase(locationRequest.getName());
+        boolean isSameState = vendor.getLocation().getState().equalsIgnoreCase(locationRequest.getState());
 
         return isSameCity && isSameState;
     }

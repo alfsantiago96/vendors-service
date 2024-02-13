@@ -99,6 +99,19 @@ public class VendorsApiContextTest {
     }
 
     @Test
+    @Order(4)
+    void shouldNotCreateAVendor_withoutProvidingAValidService() throws Exception {
+        String input = new String(Files.readAllBytes(Paths.get("src/test/resources/json/request/CreateVendorInvalidServiceRequest.json")));
+
+        mockMvc.perform(post(BASE_URI)
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("vendor", "123"))
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(input))
+                .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
+    }
+
+    @Test
     @Order(5)
     void givenAValidContract_shouldCreateAVendor_whenUserIsAuthorized() throws Exception {
         String input = new String(Files.readAllBytes(Paths.get("src/test/resources/json/request/CreateVendorRequest.json")));

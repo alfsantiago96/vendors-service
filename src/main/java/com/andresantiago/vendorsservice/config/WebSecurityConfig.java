@@ -76,7 +76,10 @@ public class WebSecurityConfig {
             "/test/**",
             "/app/**",
             "/app/vendors/**",
-            "/vendors/**"
+            "/vendors/**",
+            "http://localhost:8080/**",
+            "http://localhost:8080/app/**",
+            "http://localhost:8080/app/vendors/**"
     };
 
     //    @Bean

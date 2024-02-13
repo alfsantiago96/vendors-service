@@ -117,8 +117,8 @@ public class VendorService {
 
         List<VendorEntity> vendorsByLocation = vendorDatabaseInMemory.getVendors().stream()
                 .filter(vendorEntity ->
-                        vendorEntity.getLocation().getName().equals(locationRequest.getName())
-                                && vendorEntity.getLocation().getState().equals(locationRequest.getState()))
+                        vendorEntity.getLocation().getName().equalsIgnoreCase(locationRequest.getName())
+                                && vendorEntity.getLocation().getState().equalsIgnoreCase(locationRequest.getState()))
                 .collect(Collectors.toList());
 
         log.info("Vendors result by location={}", vendorsByLocation);
